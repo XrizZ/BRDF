@@ -92,7 +92,6 @@ Preparations
 
 First of all, we need a 3D model to represent our scene. We used the DAVID Laserscanner Software to get that. It works together with an arbitrary webcam, in our case a simple Logitech model, a line laser, and a calibration grid. 
 
-Usage:
 <h2>Program Usage</h2>
 
 Following is a step by step description how to use our system, from scanning the object to using the software to estimate the BRDF.
@@ -115,61 +114,76 @@ Figure 1: Camera Settings
 With the camera all set up, establish a connection with the camera via the VLC Player and set the resolution to 800x600 pixel. Now take one picture for each LED, each time changing the arduino software by increasing x in "OneON(x, 0);" and uploading it to the microcontroller. You will need the Arduino Java Programming Environment, which can be downloaded from the Arduino homepage to load the led controller software.
 Now take a screenshot of the camera image in VLC Player and save it as x.png, where x is the number of the current LED, beginning with 1. Also save the dark image with no LED on as dark.png. These images may look like the following. 
 
-<a href="img/timber/1.png"><img src="img/timber/1_t.png" width="200" /></a>
+<a href="Website/img/timber/1.png"><img src="Website/img/timber/1_t.png" width="200" /></a>
 
-1						
-<a href="img/timber/2.png"><img src="img/timber/2_t.png" width="200" /></a>
+1
+
+<a href="Website/img/timber/2.png"><img src="Website/img/timber/2_t.png" width="200" /></a>
 
 2
 
-						<a href="img/timber/3.png"><img src="img/timber/3_t.png" width="200" /></a>
-						3
+<a href="Website/img/timber/3.png"><img src="Website/img/timber/3_t.png" width="200" /></a>
 
-						<a href="img/timber/4.png"><img src="img/timber/4_t.png" width="200" /></a>
-						4
+3
 
-						<a href="img/timber/5.png"><img src="img/timber/5_t.png" width="200" /></a>
-						5
+<a href="Website/img/timber/4.png"><img src="Website/img/timber/4_t.png" width="200" /></a>
 
-						<a href="img/timber/6.png"><img src="img/timber/6_t.png" width="200" /></a>
-						6
+4
 
-						<a href="img/timber/7.png"><img src="img/timber/7_t.png" width="200" /></a>		
-						7
+<a href="Website/img/timber/5.png"><img src="Website/img/timber/5_t.png" width="200" /></a>
 
-						<a href="img/timber/8.png"><img src="img/timber/8_t.png" width="200" /></a>
-						8
+5
 
-						<a href="img/timber/9.png"><img src="img/timber/9_t.png" width="200" /></a>
-						9
+<a href="Website/img/timber/6.png"><img src="Website/img/timber/6_t.png" width="200" /></a>
 
-						<a href="img/timber/10.png"><img src="img/timber/10_t.png" width="200" /></a>
-						10
+6
 
-						<a href="img/timber/11.png"><img src="img/timber/11_t.png" width="200" /></a>
-						11
+<a href="Website/img/timber/7.png"><img src="Website/img/timber/7_t.png" width="200" /></a>
 
-						<a href="img/timber/12.png"><img src="img/timber/12_t.png" width="200" /></a>
-						12
+7
 
-						<a href="img/timber/13.png"><img src="img/timber/13_t.png" width="200" /></a>			
-						13
+<a href="Website/img/timber/8.png"><img src="Website/img/timber/8_t.png" width="200" /></a>
 
-						<a href="img/timber/14.png"><img src="img/timber/14_t.png" width="200" /></a>
-						14
+8
 
+<a href="Website/img/timber/9.png"><img src="Website/img/timber/9_t.png" width="200" /></a>
 
-						<a href="img/timber/15.png"><img src="img/timber/15_t.png" width="200" /></a>
-						15
+9
 
-						<a href="img/timber/16.png"><img src="img/timber/16_t.png" width="200" /></a>					
-						16
+<a href="Website/img/timber/10.png"><img src="Website/img/timber/10_t.png" width="200" /></a>
 
-						<a href="img/timber/dark.png"><img src="img/timber/dark_t.png" width="200" /></a>
-						dark image
+10
 
-						<a href="img/timber/light.png"><img src="img/timber/light_t.png" width="200" /></a>
-						image with background light					
+<a href="Website/img/timber/11.png"><img src="Website/img/timber/11_t.png" width="200" /></a>
+
+11
+
+<a href="Website/img/timber/12.png"><img src="Website/img/timber/12_t.png" width="200" /></a>
+
+12
+
+<a href="Website/img/timber/13.png"><img src="Website/img/timber/13_t.png" width="200" /></a>
+
+13
+
+<a href="Website/img/timber/14.png"><img src="Website/img/timber/14_t.png" width="200" /></a>
+
+14
+
+<a href="Website/img/timber/15.png"><img src="Website/img/timber/15_t.png" width="200" /></a>
+
+15
+
+<a href="Website/img/timber/16.png"><img src="Website/img/timber/16_t.png" width="200" /></a>					
+16
+
+<a href="Website/img/timber/dark.png"><img src="Website/img/timber/dark_t.png" width="200" /></a>
+
+dark image
+
+<a href="Website/img/timber/light.png"><img src="Website/img/timber/light_t.png" width="200" /></a>
+
+image with background light			
 
 			
 <h3>Estimating and Rendering the BRDF</h3>
@@ -192,7 +206,7 @@ Figure 2: Scene at Program Start
 				
 If the position and perspective of the object does not match the object as in the measurement images, then the BRDF estimation will be 	incorrect. We found it practical to compare the openGL representation with one of the 16 images using an image editing tool such as GIMP. To do this, simply open one of the 16 measurement images and take a screenshot of the opengl scene. Then insert the screenshot as a new layer over the image. Now make sure the layers are transparent so you can see both layers. As demonstrated by the following figure.
 
-<img src="img/matching_timber_t.png" width="475" />
+<img src="Website/img/matching_timber_t.png" width="475" />
 
 Figure 3: Matching the Scene with the Measurement Image	
 				
@@ -201,12 +215,12 @@ It is possible to move the camera position by using the keyboard keys as indicat
 <h4>Step 5: Calculate the BRDF Equations</h4>
 Press 'c' to calculate the BRDF. This process may take a long time, depending on the size of the object, resolution of the images, amount of images, the complexity of the scene and of course the processing speed of the PC. The status of the calculation can be seen in the console output of the program. When the output on the console indicates completion, the user may press 'p' to see the mapping between openGL scene and 2D screen coordinates to verify that the object was aligned properly. The anticipated result of this is shown in Figure 4.
 
-<img src="img/mapping_t.png" width="475" />
+<img src="Website/img/mapping_t.png" width="475" />
 
 Figure 4: Mapping						
 By pressing 'm' the model is rendered using the BRDF just obtained. The model can now be moved and rotated using the mouse and keys mentioned to see the effects of different lighting conditions on the material. As illustrated by Figure 5.
 				
-<img src="img/result_t.png" width="475" />
+<img src="Website/img/result_t.png" width="475" />
 
 Figure 5: Rendered BRDF
 
@@ -229,7 +243,7 @@ The rendering is done in OpenGL using the data of the scanned model. The user ca
 
 Despite of having a complex software consisting of thousands of lines of code, the main loop of the BRDF solver can be simplified quite well by the following pseudo code. 
 
-<img src="img/pseudoCode.png" width="600" />
+<img src="Website/img/pseudoCode.png" width="600" />
 
 Figure 2: Pseudo Code of BRDF Solver
 
