@@ -26,382 +26,52 @@ In order to build a BRDF Scanner, several components are needed. What we alredy 
 
 Hardware:
 
-                Meaningful measurements for BRDF estimation can be acquired by taking pictures of the scene, 
-				having the camera at a static position, but moving a point light source to predefined spots.
-				This basic idea is demonstrated in Figure 1. We chose to go with multiple light sources turned 
-				on one at a time rather than a moveable 
-				light source for the sake of much easier implementation. For this we use a 4x4 matrix of super bright
-				white LEDs with a wide angle of radiation which are aligned concentrically around the centre of the 
-				scene in different heights. This makes it easier later in the estimation process, because the
-				positions of the discrete light sources are known and can be hard-coded. The following images show 
-				photos taken during the building process.
-				
-				<div class="imagegroup">
-					<!-- TODO: make thumbnails! -->
-					<div class="imagebox">
-						<a href="img/IMG_0904.JPG"><img src="img/IMG_0904_t.JPG" width="475" /></a>
-                        Figure 2: Building the Skeleton 1
-					</div>
-                    
-					<div class="imagebox">
-						<a href="img/IMG_0906.JPG"><img src="img/IMG_0906_t.JPG" width="475" /></a>
-                        Figure 3: Building the Skeleton 2
-					</div>					
-                </div>
-				
-				We built the frame out of 0.8cm scantling timber, 0.5cm for the cross beams respectively. For the
-				bended beams we used a laser cutter to cut thin layers of artificial wood, since these layers are
-				too thin to hold their own weight over the length of more than 30cm, we glued 3 of them together
-				to create a very solid structure. The template for the bended beams can be downloaded from this page
-				in the <a href="download.html">Downloads</a> section. The template also already includes slots 
-				for the LED legs. Only a fraction of them is used by our 16 leds, this however makes the frame easily
-				extensible. All beams are glued together making it a very rigid structure. The frames dimensions are
-				built so that the calibration scheme of the laser scanner slots perfectly into place.
-				
-				<div class="imagegroup">
-					<!-- TODO: make thumbnails! -->
-					<div class="imagebox">
-						<a href="img/skeleton.JPG"><img src="img/skeleton_t.jpg" width="475" /></a>
-                        Figure 4: Finished Skeleton
-					</div>
-                    
-					<div class="imagebox">
-						<a href="img/IMG_0910.JPG"><img src="img/IMG_0910_t.JPG" width="475" /></a>
-                        Figure 5: Finished Skeleton backside
-					</div>				
-                </div>
-				
-				At this point, the skeleton is finished, but the structure is still missing the point light sources.
-				LEDs are slot into the perforated bended beams, with the LED's pointing inwards. The wiring of the LED 
-				matrix is implemented so that only one LED may be lit at a time. For controlling the LEDs we use a standard
-				microcontroller. We chose the <a href="http://www.arduino.cc/">Arduino</a> Uno for its many output ports 
-				as well as ease of programmability and low asset cost. We chose a very simple matrix circuit utilising
-				8 ports of the arduino and just 4 resistors to protect the LEDs from to high currents. The circuit can be found 
-				in Figure 6.
-				
-				<div class="imagegroup">
-				<center>
-					<div class="imagebox">
-						<img src="img/leds_Schaltplan.png" width="800" />
-						Figure 6: LED wiring
-					</div>
-				</center>
-				</div>
-				
-				The following images illustrate the wiring process.
-				
-				<div class="imagegroup">
-					<!-- TODO: make thumbnails! -->
-					<div class="imagebox">
-						<a href="img/IMG_0914.JPG"><img src="img/IMG_0914_t.JPG" width="475" /></a>
-                        Figure 7: Arduino Socket
-					</div>
-                    
-					<div class="imagebox">
-						<a href="img/IMG_0912.JPG"><img src="img/IMG_0912_t.JPG" width="475" /></a>
-                        Figure 8: Wiring the LEDs
-					</div>				
-                </div>
-				
-				With the wiring complete, the Arduino needs to get programmed. To not overstrain the power supply of the board
-				and due to the type of the circuit it is only possible to use one LED at a time. Which in turn is exactly what we
-				want for taking the measurements later on. The following table describes how the output ports of the microcontroller
-				need to be allocated to let only one LED be on.
-			</p>		
-		
-			<p>	
-				<div class="imagegroup">			
-				<br/>
-				<TABLE CELLSPACING=0>
-				<COLGROUP><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86></COLGROUP>
-				<TBODY>
-					<TR>
-						<TD>cable color:</TD>
-						<TD>white</TD>
-						<TD>yellow</TD>
-						<TD>pink</TD>
-						<TD>grey</TD>
-						<TD>red</TD>
-						<TD>green/red</TD>
-						<TD>brown/white</TD>
-						<TD>green</TD>
-						<TD></TD>
-					</TR>
-					<TR>
-						<TD></TD>
-						<TD COLSPAN="4">Columns:</TD>
-						<TD COLSPAN="4">Rows:</TD>
-						<TD></TD>
-					</TR>
-					<TR>
-						<TD></TD>
-						<TD class="darkgrey">&nbsp;</TD>
-						<TD class="darkgrey">&nbsp;</TD>
-						<TD class="darkgrey">&nbsp;</TD>
-						<TD class="darkgrey">&nbsp;</TD>
-						<TD class="lightgrey">&nbsp;</TD>
-						<TD class="lightgrey">&nbsp;</TD>
-						<TD class="lightgrey">&nbsp;</TD>
-						<TD class="lightgrey">&nbsp;</TD>
-						<TD></TD>
-					</TR>
-					<TR>
-						<TD>LED #:</TD>
-						<TD class="darkgrey">D0:</TD>
-						<TD class="darkgrey">D1:</TD>
-						<TD class="darkgrey">D2:</TD>
-						<TD class="darkgrey">D3:</TD>
-						<TD class="lightgrey">D4:</TD>
-						<TD class="lightgrey">D5:</TD>
-						<TD class="lightgrey">D6:</TD>
-						<TD class="lightgrey">D7:</TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD><B>NONE</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>(all low or all high!)</TD>
-					</TR>
-					<TR>
-						<TD>1</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>2</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>3</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>4</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>5</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>6</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>7</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>8</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>9</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>10</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>11</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>12</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>13</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>14</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>15</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>&nbsp;</TD>
-					</TR>
-					<TR>
-						<TD>16</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD>low</TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD><B>HIGH</B></TD>
-						<TD>low</TD>
-						<TD>&nbsp;</TD>
-					</TR>
-				</TBODY>
-				</TABLE>
-				<br>
-				</div>
-		</p>		
-		
-		<p>		
-				For demonstration purpose the microcontroller software is set to continously changing LED ports in the following video.
-				<div class="imagegroup">
-					<center>
-					<div class="imagebox">
-						<iframe width="560" height="315" src="http://www.youtube.com/embed/4pmlsCcu2N8" frameborder="0" allowfullscreen></iframe>
-						<br>
-						Demo Video
-					</div>
-					</center>
-				</div>
-				The software to control the LEDs can be found in the <a href="download.html">Downloads</a> section.
-        </p>
-		
-		<p>
-				With having build the frame, wired the LEDs and coded software for the microcontroller, the hardware part is complete.
-				Figure 9 and 10 show the frame integrated with the DAVID laserscanner.
-				<div class="imagegroup">
-					<!-- TODO: make thumbnails! -->
-					<div class="imagebox">
-						<a href="img/IMG_0945.JPG"><img src="img/IMG_0945_t.JPG" width="475" /></a>
-                        Figure 9: BRDF Scanner
-					</div>
-                    
-					<div class="imagebox">
-						<a href="img/IMG_0947.JPG"><img src="img/IMG_0947_t.JPG" width="475" /></a>
-                        Figure 10: BRDF Scanner, different view
-					</div>
-                </div>
-		</p>
-		
-		<p>
-				For the implementation of the software, please continue reading <a href="software.html">here</a>.
-		</p>
+Meaningful measurements for BRDF estimation can be acquired by taking pictures of the scene, having the camera at a static position, but moving a point light source to predefined spots. This basic idea is demonstrated in Figure 1. We chose to go with multiple light sources turned on one at a time rather than a moveable light source for the sake of much easier implementation. For this we use a 4x4 matrix of super bright white LEDs with a wide angle of radiation which are aligned concentrically around the centre of the scene in different heights. This makes it easier later in the estimation process, because the positions of the discrete light sources are known and can be hard-coded. The following images show photos taken during the building process.
 
+<a href="Website/img/IMG_0904.JPG"><img src="Website/img/IMG_0904_t.JPG" width="475" /></a>
+Figure 2: Building the Skeleton 1
+
+<a href="Website/img/IMG_0906.JPG"><img src="Website/img/IMG_0906_t.JPG" width="475" /></a>
+Figure 3: Building the Skeleton 2
+				
+We built the frame out of 0.8cm scantling timber, 0.5cm for the cross beams respectively. For the bended beams we used a laser cutter to cut thin layers of artificial wood, since these layers are too thin to hold their own weight over the length of more than 30cm, we glued 3 of them together to create a very solid structure. The template for the bended beams can be downloaded from this page in the <a href="download.html">Downloads</a> section. The template also already includes slots for the LED legs. Only a fraction of them is used by our 16 leds, this however makes the frame easily extensible. All beams are glued together making it a very rigid structure. The frames dimensions are built so that the calibration scheme of the laser scanner slots perfectly into place.
+
+<a href="Website/img/skeleton.JPG"><img src="Website/img/skeleton_t.jpg" width="475" /></a>
+Figure 4: Finished Skeleton
+               
+<a href="Website/img/IMG_0910.JPG"><img src="Website/img/IMG_0910_t.JPG" width="475" /></a>
+Figure 5: Finished Skeleton backside
+				
+At this point, the skeleton is finished, but the structure is still missing the point light sources. LEDs are slot into the perforated bended beams, with the LED's pointing inwards. The wiring of the LED matrix is implemented so that only one LED may be lit at a time. For controlling the LEDs we use a standard microcontroller. We chose the <a href="http://www.arduino.cc/">Arduino</a> Uno for its many output ports as well as ease of programmability and low asset cost. We chose a very simple matrix circuit utilising 8 ports of the arduino and just 4 resistors to protect the LEDs from to high currents. The circuit can be found in Figure 6.
+				
+<img src="img/leds_Schaltplan.png" width="800" />
+Figure 6: LED wiring
+			
+The following images illustrate the wiring process.
+<a href="img/IMG_0914.JPG"><img src="img/IMG_0914_t.JPG" width="475" /></a>
+Figure 7: Arduino Socket
+
+<a href="img/IMG_0912.JPG"><img src="img/IMG_0912_t.JPG" width="475" /></a>
+Figure 8: Wiring the LEDs
+
+With the wiring complete, the Arduino needs to get programmed. To not overstrain the power supply of the board and due to the type of the circuit it is only possible to use one LED at a time. Which in turn is exactly what we want for taking the measurements later on. The following table describes how the output ports of the microcontroller need to be allocated to let only one LED be on.
+				
+For demonstration purpose the microcontroller software is set to continously changing LED ports in the following video.
+				
+<iframe width="560" height="315" src="http://www.youtube.com/embed/4pmlsCcu2N8" frameborder="0" allowfullscreen></iframe>
+Demo Video
+
+The software to control the LEDs can be found in the Arduino folder.
+
+With having build the frame, wired the LEDs and coded software for the microcontroller, the hardware part is complete.
+Figure 9 and 10 show the frame integrated with the DAVID laserscanner.
+
+<a href="Website/img/IMG_0945.JPG"><img src="Website/img/IMG_0945_t.JPG" width="475" /></a>
+Figure 9: BRDF Scanner
+					
+<a href="Website/img/IMG_0947.JPG"><img src="Website/img/IMG_0947_t.JPG" width="475" /></a>
+Figure 10: BRDF Scanner, different view
+	
 Software:
 
 <img src="img/algorithm_t.png" width="500" />
