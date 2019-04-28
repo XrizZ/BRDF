@@ -1,0 +1,35 @@
+body { font-family: Arial, sans-serif; margin: 20px; font-size: 16px; line-height: 140%; }
+img { border: 0; }
+
+h1 { text-align: center; font-size: 32px; line-height: 100%; }
+h2 { font-size: 24px; line-height: 100%; }
+h3 { font-size: 18px; line-height: 100%; margin: 2em 0 1em; }
+
+h1 img { margin: 0 50px; vertical-align: middle; }
+
+p { text-align: justify; }
+table { width: 100%; }
+
+td { text-align: center; }
+th { font-weight: normal; text-align: center; }
+
+a { color: #900; font-weight: bold; text-decoration: none; }
+a:hover, a:active { background-color: #eee; }
+
+#menu { text-align: center }
+#menu * { padding: 3px 10px; }
+#pagebox { min-width: 800px; max-width: 1000px; margin: auto; }
+
+#contactinfo * { vertical-align: middle; }
+#contactinfo span { width: 175px; display: inline-block;  }
+
+.left_side { float: left; margin: 20px 20px 20px 0; }
+.right_side { float: right; margin: 20px 0 20px 20px; }
+.centered { text-align: center; margin: 20px auto; }
+
+.imagegroup { background-color: #eee; margin: 20px 0; clear: both; }
+.imagebox { display: inline-block; text-align: center; padding: 10px; vertical-align: top; color: #777; }
+.imagebox img, .imagebox iframe { display: block; padding: 5px 0; }
+
+.darkgrey { background-color: #666; font-weight: bold; }
+.lightgrey { background-color: #ccc; font-weight: bold; }

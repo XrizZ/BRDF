@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>BRDF Estimation on Objects &ndash; Implementation</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="pagebox">
+	<h1>
+		<img src="img/logo_tu.png" />
+		BRDF Estimation on Objects
+		<img src="img/logo_cg.png" />
+	</h1>
+	<div id="menu">
+		<a href="index.html">Introduction</a>
+		<a href="implementation.html">Implementation</a>
+		<a href="usage.html">Program Usage</a>
+		<a href="results.html">Results</a>
+		<a href="contact.html">Contact</a>
+		<a href="download.html">Downloads</a>
+	</div>
+	<br />
+	<div id="menu">
+		<a href="hardware.html">Hardware</a>
+		<a href="software.html">Software</a>
+	</div>
+
+	<h2>Implementation &ndash; Software</h2>
+	<div class="imagebox left_side">
+		<!-- TODO: make thumbnail -->
+		<img src="img/algorithm_t.png" width="500" />
+		Figure 1: High Level Overview of Algorithm
+	</div>
+	<p>
+		The software we wrote computes the BRDF for our object based on images that are taken when the object is illuminated by exactly
+		one light source in a pre-defined position. We already built the hardware to do this in the previous step.
+		Now there are some preparations necessary to get
+		all the data we need. To do 3D rendering, a model has to be created from the real-world object. Luminosity values can be gained by
+		taking images with a digital camera or webcam and evaluate the pixel values of the resulting image. We also need to know the exact
+		positions of the camera, the object, and the light sources. Also important is the orientation and field of view of the camera.
+		When this data is collected, the actual BRDF calculation can be done. The luminosity values gained from the images have to be
+		associated with points on the surface of the object and all data put in the algorithm. When the calculation is done, it can be
+		rendered on screen to approximate the reflection behaviour of the object's surface on the basis of a reflection model.
+	</p>
+	
+	<h3>Preparations</h3>
+	<p>
+		First of all, we need a 3D model to represent our scene.
+		We used the DAVID Laserscanner Software to get that. It works together with an arbitrary webcam, in our case a simple Logitech model,
+		a line laser, and a calibration grid. To read which preparations need to be done before calculation, switch to
+		<a href="usage.html">Program Usage</a>.
+		
+	<h3>Get Position of LEDs</h3>
+	<p>
+		As we placed our light sources fixed on bended beams that form sectors of a circle with the origin of our model space as the center,
+		we are able to calculate the position of each LED using its beam's height and its angle on the virtual circle to get the other
+		two coordinates.
+	</p>
+	
+	<h3>Step 1: Calc Pixel to Surface Mapping</h3>
+	<p>
+		We want our model to be viewable on screen from any direction.
+		Depending on the position of the viewer, we want every spot on the object to reflect light in the manner
+		it is supposed to, based on the currently used reflection model.<br/>
+		On the images we already took we can see our object illuminated from different angles, giving us rays that were reflected in
+		a specular, mirror-like manner and also candidates for diffuse reflection. Before we can do any calculation concerning luminance or
+		reflection rates, we have to know where to apply our measured data on the model. In order to do that, we render the scene in OpenGL and
+		put the OpenGL camera on exactly the place in model space where our real webcam is in object space. To get an exact match of the edges
+		in the real image and the rendered one, some fine-adjusting is necessary to compensate inaccurate data previously measured.<br/>
+		As soon as we have reconstructed the real camera's view, we can utilize the OpenGL gluUnproject function which takes a two-dimensional
+		input describing the position of a pixel on screen and results in the directional vector from the viewer to our object that this pixel
+		represents.
+		We can now check for each triangle on our model if the resulting ray of light hits it and which of them is hit first. That is the one
+		we are interested in.
+	</p>
+	
+	<h3>Step 2: Solve BRDF Equation</h3>
+	<p>
+		In order to render the model from every perspective, we not only need the reflection values from the original viewer's position
+		but rather information about how much light is specularly reflected (coeffficient k<sub>s</sub>), how much light is diffusely
+		reflected (coefficient k<sub>d</sub>), and how concentrated the diffuse reflection is around the ideal specular reflection direction.
+		Those are our three unknowns that solve the non-linear equation of our current reflection model.<br/>
+		To solve it, we use the Levenberg-Marquardt algorithm that combines the advantages of two other algorithms used for solving equations
+		in least squares manner &ndash; the Gauss-Newton algorithm and the method of gradient descent. We use this algorithm because of its
+		robust nature finding a minimum of the input function even if the starting values of the iteration are far away from the final solution.<br/>
+		To get our three unknowns, we run the Levenberg-Marquardt algorithm for each pixel of the input images that hits the observed object.
+		The number of input values can be chosen at will. As we took 16 images with different positions of the light source, we have 16 of them.
+		Two angles also go into the equation, depending on the currently used reflection model. The Phong model needs the angle between
+		ideally reflected beam and observer. The Blinn-Phong model needs the one between the normal vector of the illuminated triangle and
+		the corresponding half vector. Both models also need the angle between light source and face normal.
+	</p>
+	
+	<p>
+		All calculations were done for each color channel, R,G and B individually.
+	</p>
+	
+	<h3>Step 3: Render</h3>
+	<p>
+		The rendering is done in OpenGL using the data of the scanned model. The user can then choose if the model is displayed in unicolored,
+		or if the calculated BRDF will be used to define reflection behaviour. In the latter case, a self-made shader comes into action that
+		computes the illumination of each spot on the model depending on the camera's location. To do that, the formula of the currently
+		defined reflection model is filled with the angles for light source, face normal, reflected light ray, half vector and observer vector as well as
+		the	estimated paramters from the previous step. This
+		results in a number characterizing the luminosity from this spot on the model towards the observer.
+	</p>
+	
+	<p>
+		Despite of having a complex software consisting of thousands of lines of code, the main loop of the BRDF solver can be simplified quite well by
+		the following pseudo code.
+		<div class="imagegroup centered">
+			<div class="imagebox">
+				<!-- TODO: make correct size -->
+				<img src="img/pseudoCode.png" width="600" />
+				Figure 2: Pseudo Code of BRDF Solver
+			</div>
+		</div>
+	</p>
+	
+	<p>
+		For the results and evaluation please proceed to the <a href="results.html">next</a> section.
+	</p>
+	
+</div>
+
+</body>
+</html>

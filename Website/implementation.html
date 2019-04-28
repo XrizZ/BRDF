@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>BRDF Estimation on Objects &ndash; Implementation</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="pagebox">
+        <h1>
+                <img src="img/logo_tu.png" />
+                BRDF Estimation on Objects
+                <img src="img/logo_cg.png" />
+        </h1>
+        <div id="menu">
+                <a href="index.html">Introduction</a>
+                <a href="implementation.html">Implementation</a>
+                <a href="usage.html">Program Usage</a>
+                <a href="results.html">Results</a>
+                <a href="contact.html">Contact</a>
+                <a href="download.html">Downloads</a>
+        </div>
+        <br>
+        <div id="menu">
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html">Software</a>
+        </div>
+
+        <h2>Implementation</h2>
+        <p>
+                In order to build a BRDF Scanner, several components are needed. What we alredy have is a 
+				DAVID Laserscanner, constisting of a reference pattern, a webcam and a line laser. This 
+				gives us a 3D representation in form of an obj file. What is missing is a moveable light source
+				in order to create different lighting conditions, covering a wide range of possible values in
+				the BRD equation. We chose to integrate the light source into a scanner skeleton, which is 
+				described in detail in the <a href="hardware.html">Implementation &ndash; Hardware</a> section. Once measurements are taken, we have
+				discrete values for certain angles, so we need a software that calculates and may render a full
+				BRDF. The latter is described in the <a href="software.html">Implementation &ndash; Software</a> section.
+        </p>
+
+        <p>
+                For an evaluation of the results, please refer to the <a href="results.html">next</a> section.
+        </p>
+
+</div>
+
+</body>
+</html>

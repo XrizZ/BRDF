@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>BRDF Estimation on Objects &ndash; Downloads</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="pagebox">
+        <h1>
+                <img src="img/logo_tu.png" />
+                BRDF Estimation on Objects
+                <img src="img/logo_cg.png" />
+        </h1>
+        <div id="menu">
+                <a href="index.html">Introduction</a>
+                <a href="implementation.html">Implementation</a>
+                <a href="usage.html">Program Usage</a>
+                <a href="results.html">Results</a>
+                <a href="contact.html">Contact</a>
+                <a href="download.html">Downloads</a>
+        </div>
+
+        <h2>Program Usage</h2>
+
+        <p>
+               This page gives a step by step description how to use our system, from scanning the object to using the software
+			   to estimate the BRDF.
+        </p>
+		
+		<h3>Acquiring Measurements</h3>
+		
+		<h4>Step 1: Acquire 3D Model</h4>
+		<p>
+				In order to acquire the 3D model, the camera needs to be in position and calibrated. Once the
+				calibration process is finished, the installation must not be moved again to ensure the correct assignment of all
+				future mesh vertices. The calibration parameters are saved into a file that we need later to get the position and
+				orientation of the camera in relation to the scene.
+				All LEDs must be switched off, all background light reduced to a minimum and the DAVID Laserscanner software started.
+				The object to be scanned is now placed in the scene. Artificial lights are being switched off and curtains closed to avoid
+				the camera being distracted from the laser by unwanted light sources. 
+				The line laser is then being held above camera, pointing towards the scene so that the line crosses the left and right edges of the
+				images that the webcam sees. The angle between the camera and the laser, as seen from the object being scanned, is supposed to be
+				in an interval that ensures the underlying algorithm to operate with as few aberration as possible. Very low (&alpha;&lt;30&deg;)
+				and very high angles (&alpha;&gt;60&deg;) produce triangles between the camera, laser, and scene mesh that increase small errors that
+				already arose from imperfections in the set-up components.<br />
+				The scanning process is complete as soon as the camera has assigned every pixel on the object to a laser line that is suitable
+				to calculate the depth in 3D space of the assigned vertex on the model. The result can be saved as an obj file.
+				The instructions for scanning are also available on the DAVID HowTo website.
+				Bare in mind that too reflectant objects are not possible to scan, they also need to be within a certain size to fit
+				in the scene. Also important is the camera calibration file that is also produced by the DAVID laserscanner software.
+				This XML file will be later used by our software to align the 3D object in the virtual 3D world.
+		</p>
+		
+		<h4>Step 2: Take BRD measurements</h4>
+		<p>
+				Once the model and the camera calibration file is acquired, the actual BRD measurements can be taken using the camera.
+				The camera needs to be in the exact position as in the first step. We will now take 16 images, one image for each LED.
+				We used VLC Player to access the camera directly, there we can define the resolution of the camera and take screenshots.
+				For taking the images it is crucial to elimante all background light. Which is achieved easily by covering the scanner
+				skeleton with a black woll sheet. To further eliminate sensor noise, we take a dark image, that we will later subtract
+				from the actual 16 measurements.
+		</p>
+		<p>
+				It is now time to connect the Arduino to a PC and start the LED controlling software. Switch the first LED on by calling
+				OneON(1, 0); in the "loop" function of the software.
+				The camera settings are very important in this step, since they influence the quality of the BRDF Estimation. Set the camera
+				so that with one LED on, the image is neither oversaturated nor too dark or unrealistic in terms of color. For our test
+				camera, the Logitech WebCam Pro 9000, we found the following settings to be useful.
+				
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						<img src="img/camera_settings_t.png" width="475" />
+                        Figure 1: Camera Settings						
+					</div>
+					</center>
+                </div>
+		</p>
+		<p>
+				With the camera all set up, establish a connection with the camera via the VLC Player and set the resolution to 800x600 pixel.
+				Now take one picture for each LED, each time changing the arduino software by increasing x in "OneON(x, 0);" and uploading it
+				to the microcontroller. You will need the Arduino Java Programming Environment, which can be downloaded from the Arduino homepage
+				to load the led controller software.
+		</p>
+		<p>
+				Now take a screenshot of the camera image in VLC Player and save it as x.png, where x is the number of 
+				the current LED, beginning with 1. Also save the dark image with no LED on as dark.png. These images may look like the following.
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						 <a href="img/timber/1.png"><img src="img/timber/1_t.png" width="200" /></a>
+						1						
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/2.png"><img src="img/timber/2_t.png" width="200" /></a>
+						2
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/3.png"><img src="img/timber/3_t.png" width="200" /></a>
+						3
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/4.png"><img src="img/timber/4_t.png" width="200" /></a>
+						4
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/5.png"><img src="img/timber/5_t.png" width="200" /></a>
+						5
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/6.png"><img src="img/timber/6_t.png" width="200" /></a>
+						6
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/7.png"><img src="img/timber/7_t.png" width="200" /></a>					
+						7
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/8.png"><img src="img/timber/8_t.png" width="200" /></a>
+						8
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/9.png"><img src="img/timber/9_t.png" width="200" /></a>
+						9
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/10.png"><img src="img/timber/10_t.png" width="200" /></a>
+						10
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/11.png"><img src="img/timber/11_t.png" width="200" /></a>
+						11
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/12.png"><img src="img/timber/12_t.png" width="200" /></a>
+						12
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/13.png"><img src="img/timber/13_t.png" width="200" /></a>				
+						13
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/14.png"><img src="img/timber/14_t.png" width="200" /></a>
+						14
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/15.png"><img src="img/timber/15_t.png" width="200" /></a>
+						15
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/16.png"><img src="img/timber/16_t.png" width="200" /></a>					
+						16
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/dark.png"><img src="img/timber/dark_t.png" width="200" /></a>
+						dark image
+					</div>
+					<div class="imagebox">
+						<a href="img/timber/light.png"><img src="img/timber/light_t.png" width="200" /></a>
+						image with background light					
+					</div>
+					</center>
+                </div>
+		</p>
+			
+		<h3>Estimating and Rendering the BRDF</h3>
+		
+		<p>
+				All is now acquired for the main software that estimates and renders the BRDF as a 3D representation.
+		</p>
+		
+		<h4>Step 3: Set up the Program</h4>
+		<p>
+				Open the project file("BRDF.sln") with MS Visual Studion 2010 and go into the main.cpp file. In line 33, change the path of
+				LoadModel(..) to the path of the obj file. In line 46 change the path to the file of the camera calibration file of 
+				LoadCameraParameters(..). 
+				
+				Now go to the file brdfdata.cpp and change the path in line 20 to the path where the 16 images are located. Remember that
+				they need to be named 1. to 16."filextension". Now set the correct file extension in line 23. By default these paths are
+				"img" located in the project folder.
+		</p>
+		
+		<h4>Step 4: Align the 3D model with the input images</h4>
+		<p>
+				Our software tries to automatically align the 3D model with the real world camera, however this does not always work perfectly
+				due to imperfections in the camera calibration and due to lens distortion.
+		</p>
+		<p>		
+				Start the program via Visual Studio 2010.
+		</p>
+		<p>		
+				If everything was set up correctly, You will now see the mesh loaded and illuminated by a point light source positioned where the
+				camera is. This is the position that was estimated by the program automatically according to the camera calibration file. As shown
+				in the following figure.
+				
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						<img src="img/program_start_t.png" width="475" />
+                        Figure 2: Scene at Program Start						
+					</div>
+					</center>
+                </div>
+				
+				If the position and perspective of the object does not match the object as in the measurement images, then the BRDF estimation will be
+				incorrect.
+		</p>
+		<p>		
+				We found it practical to compare the openGL representation with one of the 16 images using an image editing tool such as GIMP.
+				To do this, simply open one of the 16 measurement images and take a screenshot of the opengl scene. Then insert the screenshot
+				as a new layer over the image. Now make sure the layers are transparent so you can see both layers. As demonstrated by the following
+				figure.
+				
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						<img src="img/matching_timber_t.png" width="475" />
+                        Figure 3: Matching the Scene with the Measurement Image						
+					</div>
+					</center>
+                </div>
+				
+				It is possible to move the camera position by using the keyboard keys as indicated in the top left of the openGL scene. Also the mouse can
+				be used to move the center of the camera vector. If this does not sufficiently align the model with the measurement images, the field
+				of view horizontally and vertically may be altered. Also using the keyboard keys as indicated in the top left of the openGL scene in
+				the onscreen display.
+				
+				You can always go back to the default view however by pressing 'r'.
+				
+				Once the alignment is complete, we can proceed to the next step.
+		</p>
+		
+		<h4>Step 5: Calculate the BRDF Equations</h4>
+		<p>
+				Press 'c' to calculate the BRDF. This process may take a long time, depending on the size of the object, resolution of the images, amount of images, the complexity of the scene and
+				of course the processing speed of the PC. The status of the calculation can be seen in the console output of the program.				
+		</p>
+		<p>
+				When the output on the console indicates completion, the user may press 'p' to see the mapping between openGL scene and 2D screen coordinates
+				to verify that the object was aligned properly. The anticipated result of this is shown in Figure 4.
+				
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						<img src="img/mapping_t.png" width="475" />
+                        Figure 4: Mapping						
+					</div>
+					</center>
+                </div>
+				
+				By pressing 'm' the model is rendered using the BRDF just obtained. The model can now be
+				moved and rotated using the mouse and keys mentioned to see the effects of different lighting conditions on the material. As illustrated
+				by Figure 5.
+				
+				<div class="imagegroup">
+					<!-- TODO: make correct image size! -->
+					<center>
+					<div class="imagebox">						
+						<img src="img/result_t.png" width="475" />
+                        Figure 5: Rendered BRDF
+					</div>
+					</center>
+                </div>
+				
+				The average values for the BRDF equation: k<sub>d</sub>, k<sub>s</sub> and n are printed to the console.
+		</p>
+		
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>BRDF Estimation on Objects &ndash Introduction</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="pagebox">
+        <h1>
+                <img src="img/logo_tu.png" />
+                BRDF Estimation on Objects
+                <img src="img/logo_cg.png" />
+        </h1>
+        <div id="menu">
+                <a href="index.html">Introduction</a>
+                <a href="implementation.html">Implementation</a>
+                <a href="usage.html">Program Usage</a>
+                <a href="results.html">Results</a>
+                <a href="contact.html">Contact</a>
+                <a href="download.html">Downloads</a>
+        </div>
+
+
+        <h2>Introduction</h2>
+        <p>
+                <!-- TODO: make thumbnail -->
+                <div class="imagebox right_side">
+                        <a href="img/skeleton.jpg"><img src="img/skeleton_t.jpg" width="400" /></a>
+                        Figure 1: Scanner Skeleton
+                </div>
+                This website presents the results and implementation details of
+                a method for scanning a surface's Bi-Directional Reflectance Distribution
+                Function, or short BRDF. This method was developed by Christian Thurow and Christopher Leiste
+                as a project within one semester as part of the course "Rapid Prototyping"
+                (winter term 2011/12) at <a href="http://www.cg.tu-berlin.de/">Technical University Berlin</a>.
+        </p>
+
+        <h3>Overview</h3>
+        <p>
+                Our main goal was to aquire surface properties regarding its light reflectance of real objects as
+                accurate as possible given the limited equipment of an off-the-shelve webcam and a
+                <a href="http://www.david-laserscanner.com/">DAVID Laserscanner</a>. Together with a 3D model of the object,
+                the BRDF description of its surface reassembles a real object quite well and makes it possible to render this
+                object realistically and also manufacture replicas of the object with modern rapid prototyping 3D printers.
+
+                But before we go into detail of our implementation, we have to have a look at the BRD function, briefly its
+                theory and complexity to fully understand its basic idea and importance.
+
+                <!-- TODO: make thumbnail -->
+                <div class="imagebox left_side">
+                        <img src="img/reflection_t.png" width="350" />
+                        Figure 2: Geometry of Reflection
+                </div>
+        </p>
+
+        <h3>BRDF Theory</h3>
+        <p>
+               The BRDF describes how incident light is reflected on a surface. The amount and direction of the reflected light
+               depends on the surface normal vector-N, the direction of the incident light vector-L, the position of the spectator(vector-V),
+               and material specific coefficients
+               that are the unknowns in our estimation process. The coefficients tell us about the amount of diffuse light (k<sub>d</sub>),
+			   specular light (k<sub>s</sub>)
+               and the specular hardness(n), respectively. In the field of Computer Graphics, there are several different established reflectance models.
+               Among others, two very common models are the
+			   <a href="http://www.cs.northwestern.edu/~ago820/cs395/Papers/Phong_1975.pdf">Phong reflection model</a> and the
+			   <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.131.7741&rep=rep1&type=pdf">Blinn-Phong model</a>,
+			   which are described by the following formulas.
+
+               <img src="img/formulas_t.png" width="600" />
+               <br>
+
+               Where H is the half-vector between V and L, and R is the mirrored version of L at N.
+               Figure 2 shows the angular relations of the reflectance problem. The BRDF Estimation problem has multiple dimensions making
+               this a complex task. Besides the 3-dimensional angular relations, involving the state of the 3 vectors N,L and V, each point of
+               the surface can have different reflectance properties, also each wavelength of light may be reflected differently.
+               However, once a full BRDF formula for each wavelength and each point on the surface has been acquired, the surface properties are fully
+               described (except for subsurface scattering) in the sense of light interaction, leading to many new possible applications.
+        </p>
+
+        <p>
+                For further details description please continue reading the <a href="implementation.html">Implementation</a> section.
+        </p>
+
+        <!-- TODO: BildQuelle für Figure 2 angeben! -->
+
+</div>
+
+</body>
+</html>
