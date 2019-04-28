@@ -1,11 +1,17 @@
+Introduction
+
 This documentation presents the results and implementation details of a method for scanning a surface's Bi-Directional Reflectance Distribution Function, or short BRDF. This method was developed by Christian Thurow and Christopher Leiste
 as a project within one semester as part of the course "Rapid Prototyping" (winter term 2011/12) at <a href="http://www.cg.tu-berlin.de/">Technical University Berlin</a>.
-      
+
+Overview
+
 Our main goal was to aquire surface properties regarding its light reflectance of real objects as accurate as possible given the limited equipment of an off-the-shelve webcam and a <a href="http://www.david-laserscanner.com/">DAVID Laserscanner</a>. Together with a 3D model of the object, the BRDF description of its surface reassembles a real object quite well and makes it possible to render this               object realistically and also manufacture replicas of the object with modern rapid prototyping 3D printers. But before we go into detail of our implementation, we have to have a look at the BRD function, briefly its theory and complexity to fully understand its basic idea and importance.
 
 <img src="Website/img/reflection_t.png" width="350" />
 
 Figure 2: Geometry of Reflection
+
+BRDF Theory
 
 The BRDF describes how incident light is reflected on a surface. The amount and direction of the reflected light
 depends on the surface normal vector-N, the direction of the incident light vector-L, the position of the spectator(vector-V),
@@ -28,6 +34,10 @@ In order to build a BRDF Scanner, several components are needed. What we alredy 
 Hardware:
 
 Meaningful measurements for BRDF estimation can be acquired by taking pictures of the scene, having the camera at a static position, but moving a point light source to predefined spots. This basic idea is demonstrated in Figure 1. We chose to go with multiple light sources turned on one at a time rather than a moveable light source for the sake of much easier implementation. For this we use a 4x4 matrix of super bright white LEDs with a wide angle of radiation which are aligned concentrically around the centre of the scene in different heights. This makes it easier later in the estimation process, because the positions of the discrete light sources are known and can be hard-coded. The following images show photos taken during the building process.
+
+<img src="Website/img/idea_t.png" width="400" />
+
+Figure 1: The Basic Idea
 
 <a href="Website/img/IMG_0904.JPG"><img src="Website/img/IMG_0904_t.JPG" width="475" /></a>
 
@@ -64,6 +74,259 @@ Figure 7: Arduino Socket
 Figure 8: Wiring the LEDs
 
 With the wiring complete, the Arduino needs to get programmed. To not overstrain the power supply of the board and due to the type of the circuit it is only possible to use one LED at a time. Which in turn is exactly what we want for taking the measurements later on. The following table describes how the output ports of the microcontroller need to be allocated to let only one LED be on.
+
+<div class="imagegroup">			
+<TABLE CELLSPACING=0>
+<COLGROUP><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86><COL WIDTH=86></COLGROUP>
+<TBODY>
+<TR>
+<TD>cable color:</TD>
+<TD>white</TD>
+<TD>yellow</TD>
+<TD>pink</TD>
+<TD>grey</TD>
+<TD>red</TD>
+<TD>green/red</TD>
+<TD>brown/white</TD>
+<TD>green</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD></TD>
+<TD COLSPAN="4">Columns:</TD>
+<TD COLSPAN="4">Rows:</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD></TD>
+<TD class="darkgrey">&nbsp;</TD>
+<TD class="darkgrey">&nbsp;</TD>
+<TD class="darkgrey">&nbsp;</TD>
+<TD class="darkgrey">&nbsp;</TD>
+<TD class="lightgrey">&nbsp;</TD>
+<TD class="lightgrey">&nbsp;</TD>
+<TD class="lightgrey">&nbsp;</TD>
+<TD class="lightgrey">&nbsp;</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>LED #:</TD>
+<TD class="darkgrey">D0:</TD>
+<TD class="darkgrey">D1:</TD>
+<TD class="darkgrey">D2:</TD>
+<TD class="darkgrey">D3:</TD>
+<TD class="lightgrey">D4:</TD>
+<TD class="lightgrey">D5:</TD>
+<TD class="lightgrey">D6:</TD>
+<TD class="lightgrey">D7:</TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD><B>NONE</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>(all low or all high!)</TD>
+</TR>
+<TR>
+<TD>1</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>2</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>3</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>4</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>5</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>6</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>7</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>8</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>9</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>10</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>11</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>12</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>13</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>14</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>15</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR>
+<TD>16</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD>low</TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD><B>HIGH</B></TD>
+<TD>low</TD>
+<TD>&nbsp;</TD>
+</TR>
+</TBODY>
+</TABLE>
 				
 For demonstration purpose the microcontroller software is set to continously changing LED ports in the following video: 
 http://www.youtube.com/embed/4pmlsCcu2N8
