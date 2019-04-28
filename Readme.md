@@ -175,7 +175,8 @@ Now take a screenshot of the camera image in VLC Player and save it as x.png, wh
 
 15
 
-<a href="Website/img/timber/16.png"><img src="Website/img/timber/16_t.png" width="200" /></a>					
+<a href="Website/img/timber/16.png"><img src="Website/img/timber/16_t.png" width="200" /></a>	
+
 16
 
 <a href="Website/img/timber/dark.png"><img src="Website/img/timber/dark_t.png" width="200" /></a>
@@ -201,7 +202,7 @@ Our software tries to automatically align the 3D model with the real world camer
 
 Start the program via Visual Studio 2010. If everything was set up correctly, You will now see the mesh loaded and illuminated by a point light source positioned where the camera is. This is the position that was estimated by the program automatically according to the camera calibration file. As shown in the following figure.
 
-<img src="img/program_start_t.png" width="475" />
+<img src="Website/img/program_start_t.png" width="475" />
 
 Figure 2: Scene at Program Start						
 				
