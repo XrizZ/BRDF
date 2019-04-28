@@ -115,78 +115,38 @@ Figure 1: Camera Settings
 With the camera all set up, establish a connection with the camera via the VLC Player and set the resolution to 800x600 pixel. Now take one picture for each LED, each time changing the arduino software by increasing x in "OneON(x, 0);" and uploading it to the microcontroller. You will need the Arduino Java Programming Environment, which can be downloaded from the Arduino homepage to load the led controller software.
 Now take a screenshot of the camera image in VLC Player and save it as x.png, where x is the number of the current LED, beginning with 1. Also save the dark image with no LED on as dark.png. These images may look like the following. 
 
-<a href="Website/img/timber/1.png"><img src="Website/img/timber/1_t.png" width="200" /></a>
-
-1
-
-<a href="Website/img/timber/2.png"><img src="Website/img/timber/2_t.png" width="200" /></a>
-
-2
-
-<a href="Website/img/timber/3.png"><img src="Website/img/timber/3_t.png" width="200" /></a>
-
-3
-
-<a href="Website/img/timber/4.png"><img src="Website/img/timber/4_t.png" width="200" /></a>
-
-4
-
-<a href="Website/img/timber/5.png"><img src="Website/img/timber/5_t.png" width="200" /></a>
-
-5
-
-<a href="Website/img/timber/6.png"><img src="Website/img/timber/6_t.png" width="200" /></a>
-
-6
-
-<a href="Website/img/timber/7.png"><img src="Website/img/timber/7_t.png" width="200" /></a>
-
-7
-
-<a href="Website/img/timber/8.png"><img src="Website/img/timber/8_t.png" width="200" /></a>
-
-8
-
-<a href="Website/img/timber/9.png"><img src="Website/img/timber/9_t.png" width="200" /></a>
-
-9
-
-<a href="Website/img/timber/10.png"><img src="Website/img/timber/10_t.png" width="200" /></a>
-
-10
-
-<a href="Website/img/timber/11.png"><img src="Website/img/timber/11_t.png" width="200" /></a>
-
-11
-
-<a href="Website/img/timber/12.png"><img src="Website/img/timber/12_t.png" width="200" /></a>
-
-12
-
-<a href="Website/img/timber/13.png"><img src="Website/img/timber/13_t.png" width="200" /></a>
-
-13
-
-<a href="Website/img/timber/14.png"><img src="Website/img/timber/14_t.png" width="200" /></a>
-
-14
-
-<a href="Website/img/timber/15.png"><img src="Website/img/timber/15_t.png" width="200" /></a>
-
-15
-
-<a href="Website/img/timber/16.png"><img src="Website/img/timber/16_t.png" width="200" /></a>	
-
-16
-
-<a href="Website/img/timber/dark.png"><img src="Website/img/timber/dark_t.png" width="200" /></a>
-
-dark image
-
-<a href="Website/img/timber/light.png"><img src="Website/img/timber/light_t.png" width="200" /></a>
-
-image with background light			
-
+<TABLE FRAME=VOID CELLSPACING=0 COLS=4 RULES=NONE BORDER=1>
+<tbody>
+<tr>
+<td><a href="Website/img/timber/1.png"><img src="Website/img/timber/1_t.png" width="200" /></a> 1</td>
+<td><a href="Website/img/timber/2.png"><img src="Website/img/timber/2_t.png" width="200" /></a> 2</td>
+<td><a href="Website/img/timber/3.png"><img src="Website/img/timber/3_t.png" width="200" /></a> 3</td>
+<td><a href="Website/img/timber/4.png"><img src="Website/img/timber/4_t.png" width="200" /></a> 4</td>
+</tr>
+<tr>
+<td><a href="Website/img/timber/5.png"><img src="Website/img/timber/5_t.png" width="200" /></a> 5</td>
+<td><a href="Website/img/timber/6.png"><img src="Website/img/timber/6_t.png" width="200" /></a> 6</td>
+<td><a href="Website/img/timber/7.png"><img src="Website/img/timber/7_t.png" width="200" /></a> 7</td>
+<td><a href="Website/img/timber/8.png"><img src="Website/img/timber/8_t.png" width="200" /></a> 8</td>
+</tr>
+<tr>
+<td><a href="Website/img/timber/9.png"><img src="Website/img/timber/9_t.png" width="200" /></a> 9</td>
+<td><a href="Website/img/timber/10.png"><img src="Website/img/timber/10_t.png" width="200" /></a> 10</td>
+<td><a href="Website/img/timber/11.png"><img src="Website/img/timber/11_t.png" width="200" /></a> 11</td>
+<td><a href="Website/img/timber/12.png"><img src="Website/img/timber/12_t.png" width="200" /></a> 12</td>
+</tr>
+<tr>
+<td><a href="Website/img/timber/13.png"><img src="Website/img/timber/13_t.png" width="200" /></a> 13</td>
+<td><a href="Website/img/timber/14.png"><img src="Website/img/timber/14_t.png" width="200" /></a> 14</td>
+<td><a href="Website/img/timber/15.png"><img src="Website/img/timber/15_t.png" width="200" /></a> 15</td>
+<td><a href="Website/img/timber/16.png"><img src="Website/img/timber/16_t.png" width="200" /></a> 16</td>
+</tr>
+<tr>
+<td><a href="Website/img/timber/dark.png"><img src="Website/img/timber/dark_t.png" width="200" /></a> dark image</td>
+<td><a href="Website/img/timber/light.png"><img src="Website/img/timber/light_t.png" width="200" /></a> image with background light</td>
+</tr>
+</tbody>
+</table>
 			
 <h3>Estimating and Rendering the BRDF</h3>
 		
