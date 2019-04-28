@@ -264,21 +264,21 @@ In this section we present the results of our BRDF scanner. We tested the qualit
 <th><b>n-hardness</b></th>
 </tr>
 <tr>
-<td><img src="img/bunny_t.png" width="350" /></td>
+<td><img src="Website/img/bunny_t.png" width="350" /></td>
 <td>clay</td>
 <td>0.91</td>
 <td>0.82</td>
 <td>3.09</td>
 </tr>
 <tr>
-<td><img src="img/cup_t.png" width="350" /></td>
+<td><img src="Website/img/cup_t.png" width="350" /></td>
 <td>porcelain</td>
 <td>2.49</td>
 <td>1.16</td>
 <td>2.30</td>
 </tr>
 <tr>
-<td><img src="img/timber_t.png" width="350" /></td>
+<td><img src="Website/img/timber_t.png" width="350" /></td>
 <td>timber</td>
 <td>2.91</td>
 <td>1.67</td>
@@ -302,15 +302,15 @@ Demo Video: http://www.youtube.com/embed/Rk2YEyUg7CI
 <h3>Comparison of Lighting Models</h3>
 We also tried different lighting models, as mentioned in the <a href="index.html">introduction</a>. The Blinn-Phong model gave us a lot more realistic looking results than the Phong model. However, best results were achieved by using the Blinn-Phong model with theta-dash as angle instead of &phi;. Which we found out by mistake. The following figures demonstrate our findings.
 		
-<img src="img/phong_timber_t.png" width="350" />
+<img src="Website/img/phong_timber_t.png" width="350" />
 Figure 1: Phong model<br />
 Diffuse: 1.97, Specular: 1.14, Hardness: 2.91
 			
-<img src="img/blinnphong_timber_t.png" width="350" />
+<img src="Website/img/blinnphong_timber_t.png" width="350" />
 Figure 2: Blinn-Phong model<br />
 Diffuse: 2.91, Specular: 1.67, Hardness: 3.71
 				
-<img src="img/OwnModel_wood_1_t.png" width="350" />
+<img src="Website/img/OwnModel_wood_1_t.png" width="350" />
 Figure 3: false model<br />
 Diffuse: 0.42, Specular: 5.49, Hardness: 8.84
 				
