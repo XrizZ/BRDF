@@ -4,6 +4,7 @@ as a project within one semester as part of the course "Rapid Prototyping" (wint
 Our main goal was to aquire surface properties regarding its light reflectance of real objects as accurate as possible given the limited equipment of an off-the-shelve webcam and a <a href="http://www.david-laserscanner.com/">DAVID Laserscanner</a>. Together with a 3D model of the object, the BRDF description of its surface reassembles a real object quite well and makes it possible to render this               object realistically and also manufacture replicas of the object with modern rapid prototyping 3D printers. But before we go into detail of our implementation, we have to have a look at the BRD function, briefly its theory and complexity to fully understand its basic idea and importance.
 
 <img src="Website/img/reflection_t.png" width="350" />
+
 Figure 2: Geometry of Reflection
 
 The BRDF describes how incident light is reflected on a surface. The amount and direction of the reflected light
