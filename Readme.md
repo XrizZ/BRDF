@@ -47,7 +47,7 @@ Figure 2: Building the Skeleton 1
 
 Figure 3: Building the Skeleton 2
 				
-We built the frame out of 0.8cm scantling timber, 0.5cm for the cross beams respectively. For the bended beams we used a laser cutter to cut thin layers of artificial wood, since these layers are too thin to hold their own weight over the length of more than 30cm, we glued 3 of them together to create a very solid structure. The template for the bended beams can be downloaded from this page in the <a href="download.html">Downloads</a> section. The template also already includes slots for the LED legs. Only a fraction of them is used by our 16 leds, this however makes the frame easily extensible. All beams are glued together making it a very rigid structure. The frames dimensions are built so that the calibration scheme of the laser scanner slots perfectly into place.
+We built the frame out of 0.8cm scantling timber, 0.5cm for the cross beams respectively. For the bended beams we used a laser cutter to cut thin layers of artificial wood, since these layers are too thin to hold their own weight over the length of more than 30cm, we glued 3 of them together to create a very solid structure. The template for the bended beams can also be found in this repository. The template also already includes slots for the LED legs. Only a fraction of them is used by our 16 leds, this however makes the frame easily extensible. All beams are glued together making it a very rigid structure. The frames dimensions are built so that the calibration scheme of the laser scanner slots perfectly into place.
 
 <a href="Website/img/skeleton.JPG"><img src="Website/img/skeleton_t.jpg" width="475" /></a>
 
@@ -183,7 +183,6 @@ With the wiring complete, the Arduino needs to get programmed. To not overstrain
 </TR>
 <TR>
 <TD>5</TD>
-<TD><B>HIGH</B></TD>
 <TD>low</TD>
 <TD>low</TD>
 <TD>low</TD>
